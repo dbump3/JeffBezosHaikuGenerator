@@ -116,7 +116,7 @@ class Generator:
             s = self.tf_session.run(
                 line.syllable_dense_output,
                 feed_dict={
-                    line.syllable_input: [[syllables[i]]]
+                    line.syllable_input.ref(): [[syllables[i]]]
                 }
             )
 
