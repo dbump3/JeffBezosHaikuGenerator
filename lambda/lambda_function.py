@@ -13,6 +13,7 @@ from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
+from generatehaiku import get_haiku
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -27,8 +28,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Welcome, you can say Hello or Help. Which would you like to try?"
-
+        speak_output = get_haiku()
         return (
             handler_input.response_builder
                 .speak(speak_output)
@@ -45,7 +45,7 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Hello World!"
+        speak_output = get_haiku()
 
         return (
             handler_input.response_builder
@@ -82,7 +82,7 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Goodbye!"
+        speak_output = get_haiku()
 
         return (
             handler_input.response_builder
