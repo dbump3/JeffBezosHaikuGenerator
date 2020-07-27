@@ -36,12 +36,12 @@ def get_haiku() -> str:
     elif haiku_format == 2:
         return make_haiku(nouns3, verbs2, nouns4, verbs2, nouns1, nouns3, nouns2)
     else:
-        return make_haiku(adj2, nouns3, nouns3, nouns3, verbs1, nouns2, verbs3)
+        return make_haiku(adj2, nouns3, nouns3, nouns3, nouns1, nouns2, verbs3)
 
 def make_haiku(list1, list2, list3, list4, list5, list6, list7) -> str:
     haiku = \
-        get_word(list1) + ' ' + get_word(list2) + ' \n' \
-        + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ' \n' \
+        get_word(list1) + ' ' + get_word(list2) + ', \n' \
+        + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ', \n' \
         + get_word(list6) + ' ' + get_word(list7)
     print(haiku)
     return haiku
