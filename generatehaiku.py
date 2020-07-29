@@ -3,6 +3,8 @@
 
 import re
 from random import randint
+import nltk
+# nltk.download('wordnet')
 from nltk.corpus import wordnet as wn
 
 # 2-syllable adjectives
@@ -45,26 +47,52 @@ def make_haiku(list1, list2, list3, list4, list5, list6, list7) -> str:
         get_word(list1) + ' ' + get_word(list2) + ', \n' \
         + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ', \n' \
         + get_word(list6) + ' ' + get_word(list7)
-    print(haiku)
+    # print(haiku)
     return haiku
 
 def get_word(wordlist: str) -> str:
     return wordlist[randint(0, len(wordlist)-1)]
 
-def add_word(word: str):
+def add_word(word: str) -> None:
     word_type = get_word_type(word)
     num_syllables = get_num_syllables(word)
-    if word_type == 'n': # noun
-        return None
-    elif word_type == 'v': # verb
-        return None
-    elif word_type == 'a' or word_type == 's': # adjective / adjective satellite
-        return None
-    elif word_type == 'r': # adverb
-        return None
+    if word_type == 'n' and num_syllables == 1: # noun
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, [word], nouns4)
+    elif word_type == 'n' and num_syllables == 2: # noun 
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, [word], nouns1, nouns4)
+    elif word_type == 'n' and num_syllables == 3: # noun
+        return make_haiku(nouns2, [word], nouns3, verbs2, nouns2, nouns1, nouns4)
+    elif word_type == 'n' and num_syllables == 4: # noun
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, nouns1, [word])
+    elif word_type == 'v' and num_syllables == 1: # verb
+        return make_haiku(nouns2, verbs3, nouns2, [word], nouns4, adj2, nouns3)
+    elif word_type == 'v' and num_syllables == 2: # verb
+        return make_haiku(nouns2, nouns3, nouns3, [word], nouns2, nouns1, nouns4)
+    elif word_type == 'v' and num_syllables == 3: # verb
+        return make_haiku(adj2, nouns3, nouns3, nouns3, nouns1, nouns2, [word])
+    elif word_type == 'v' and num_syllables == 4: # verb
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, nouns1, [word])
+    elif (word_type == 'a' or word_type == 's') and num_syllables == 1: # adjective / adjective satellite
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, [word], nouns4)
+    elif (word_type == 'a' or word_type == 's') and num_syllables == 2: # adjective / adjective satellite
+        return make_haiku([word], nouns3, nouns3, verbs2, nouns2, nouns1, nouns4)
+    elif (word_type == 'a' or word_type == 's') and num_syllables == 3: # adjective / adjective satellite
+        return make_haiku(nouns2, nouns3, [word], verbs2, nouns2, nouns1, nouns4)
+    elif (word_type == 'a' or word_type == 's') and num_syllables == 4: # adjective / adjective satellite
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, nouns1, [word])
+    elif word_type == 'r' and num_syllables == 1: # adverb
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, [word], nouns4)
+    elif word_type == 'r' and num_syllables == 2: # adverb
+        return make_haiku([word], nouns3, nouns3, verbs2, nouns2, nouns1, nouns4)
+    elif word_type == 'r' and num_syllables == 3: # adverb
+        return make_haiku(nouns2, [word], nouns3, verbs2, nouns2, nouns1, nouns4)
+    elif word_type == 'r' and num_syllables == 4: # adverb
+        return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, nouns1, [word])
+    else:
+        print("Oops! Please enter another word, that one is too difficult :(")
 
 def get_word_type(word: str) -> str:
-    return wn.synsets(w)[0].pos()
+    return wn.synsets(word)[0].pos()
 
 def get_num_syllables(word: str):
     regex = r"([^aeiouy])(a|e|i|o|u|y)"
@@ -74,4 +102,13 @@ def get_num_syllables(word: str):
         count += 1
     return count
 
-get_haiku()
+userinput = input('enter a new word for the haiku generator: ')
+# print(userinput)
+# input_syllables = get_num_syllables(userinput)
+# input_word_type = get_word_type(userinput)
+# print(input_word_type)
+# print(get_num_syllables(userinput))
+
+print(add_word(userinput))
+
+# get_haiku()
