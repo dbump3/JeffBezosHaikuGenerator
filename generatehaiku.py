@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # generatehaiku.py
 
+import sys
 import re
 from random import randint
 import nltk
@@ -44,16 +45,15 @@ def get_haiku() -> str:
 
 def make_haiku(list1, list2, list3, list4, list5, list6, list7) -> str:
     haiku = \
-        get_word(list1) + ' ' + get_word(list2) + ', \n' \
-        + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ', \n' \
-        + get_word(list6) + ' ' + get_word(list7)
-    # print(haiku)
+        ' ' + get_word(list1).capitalize() + ' ' + get_word(list2) + ', \n' \
+        + ' ' + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ', \n' \
+        + ' ' + get_word(list6) + ' ' + get_word(list7) + '.'
     return haiku
 
 def get_word(wordlist: str) -> str:
     return wordlist[randint(0, len(wordlist)-1)]
 
-def add_word(word: str) -> None:
+def make_haiku_with(word: str) -> None:
     try:
         word_type = get_word_type(word)
     except:
@@ -105,13 +105,19 @@ def get_num_syllables(word: str):
         count += 1
     return count
 
-userinput = input('enter a new word for the haiku generator: ')
-# print(userinput)
-# input_syllables = get_num_syllables(userinput)
-# input_word_type = get_word_type(userinput)
-# print(input_word_type)
-# print(get_num_syllables(userinput))
-
-print(add_word(userinput))
-
-# get_haiku()
+if len(sys.argv) > 1:
+    if sys.argv[1] == '-help' or sys.argv[1] == '-h':
+        print(' -h̲elp\t\t: I think you already know what this one does...\n',
+                '-c̲ustom [arg]\t: generate a haiku containing the passed in word (arg)')
+    elif sys.argv[1] == '-custom' or sys.argv[1] == '-c':
+        if len(sys.argv) > 2:
+            print(make_haiku_with(sys.argv[2]))
+        else:
+            print(' invalid parameter for ' + sys.argv[1] + '\n',
+                    'use \'-help\' or \'-h\' for help')
+    else:
+        print(' invalid argument\n',
+                'use \'-help\' or \'-h\' for help')
+        sys.exit
+else:
+    print(get_haiku())
