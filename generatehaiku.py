@@ -54,7 +54,10 @@ def get_word(wordlist: str) -> str:
     return wordlist[randint(0, len(wordlist)-1)]
 
 def add_word(word: str) -> None:
-    word_type = get_word_type(word)
+    try:
+        word_type = get_word_type(word)
+    except:
+        word_type = 'n'
     num_syllables = get_num_syllables(word)
     if word_type == 'n' and num_syllables == 1: # noun
         return make_haiku(nouns2, nouns3, nouns3, verbs2, nouns2, [word], nouns4)
