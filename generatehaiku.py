@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # generatehaiku.py
 
+import re
 from random import randint
+from nltk.corpus import wordnet as wn
 
 # 2-syllable adjectives
 adj2 = ['devo', 'failed', 'passed', 'beta', 'gamma', 'onebox', 'frugal', 'obsessed', 'on call', 'ruby', 'data', 'brazil', 'python', 'java', 'hydra', 'docker', 'seller', 'lambda', 'mentor', 'game lunch', 'team lunch', 'server']
-7
+
 # 1-syllable nouns
 nouns1 = ['slop', 'squid', 'queue', 'chime', 'prod', 'jeff', 'sprint', 'host', 'graph', 'herd', 'spy', 'sim', 'sage', 'debt']
 
@@ -48,5 +50,28 @@ def make_haiku(list1, list2, list3, list4, list5, list6, list7) -> str:
 
 def get_word(wordlist: str) -> str:
     return wordlist[randint(0, len(wordlist)-1)]
+
+def add_word(word: str):
+    word_type = get_word_type(word)
+    num_syllables = get_num_syllables(word)
+    if word_type == 'n': # noun
+        return None
+    elif word_type == 'v': # verb
+        return None
+    elif word_type == 'a' or word_type == 's': # adjective / adjective satellite
+        return None
+    elif word_type == 'r': # adverb
+        return None
+
+def get_word_type(word: str) -> str:
+    return wn.synsets(w)[0].pos()
+
+def get_num_syllables(word: str):
+    regex = r"([^aeiouy])(a|e|i|o|u|y)"
+    matches = re.findall(regex, word, re.MULTILINE)
+    count = len(matches)
+    if ['a', 'e', 'i', 'o', 'u'].__contains__(word[0]):
+        count += 1
+    return count
 
 get_haiku()
