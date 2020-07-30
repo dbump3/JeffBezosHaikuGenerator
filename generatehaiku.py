@@ -7,6 +7,8 @@ from random import randint
 import nltk
 # nltk.download('wordnet')
 from nltk.corpus import wordnet as wn
+import pickle
+from os import remove
 
 # 2-syllable adjectives
 adj2 = ['devo', 'failed', 'passed', 'beta', 'gamma', 'onebox', 'frugal', 'obsessed', 'on call', 'ruby', 'data', 'brazil', 'python', 'java', 'hydra', 'docker', 'seller', 'lambda', 'mentor', 'game lunch', 'team lunch', 'server']
@@ -45,9 +47,9 @@ def get_haiku() -> str:
 
 def make_haiku(list1, list2, list3, list4, list5, list6, list7) -> str:
     haiku = \
-        ' ' + get_word(list1).capitalize() + ' ' + get_word(list2) + ', \n' \
-        + ' ' + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ', \n' \
-        + ' ' + get_word(list6) + ' ' + get_word(list7) + '.'
+        '\n\t' + get_word(list1).capitalize() + ' ' + get_word(list2) + ', \n' \
+        + '\t' + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ', \n' \
+        + '\t' + get_word(list6) + ' ' + get_word(list7) + '.\n'
     return haiku
 
 def get_word(wordlist: str) -> str:
@@ -105,19 +107,72 @@ def get_num_syllables(word: str):
         count += 1
     return count
 
+def prompt_user(haiku: str):
+    while(True):
+        response = input('Would you like to hang this masterpiece in the museum? (Y/N)\n').lower()
+        if response == 'y' or response == 'yes':
+            hang_in_musuem(haiku)
+            break
+        elif response == 'n' or response == 'no':
+            break
+        else:
+            print('invalid input')
+
+def hang_in_musuem(haiku: str):
+    try:
+        haikus = pickle.load(open("museum.p", "rb"))
+        if (len(haikus) == 0):
+            haikus = [haiku]
+        else:
+            haikus.append(haiku)
+    except:
+        haikus = [haiku]
+    pickle.dump(haikus, open('museum.p', 'wb'))
+    print('\nHung \"' + haiku + '\" in the museum.\n')
+
+def display_museum():
+    try:
+        haikus = pickle.load(open("museum.p", "rb"))
+        for line in haikus:
+            print(line)
+    except:
+        print('Sorry, the museum is empty. Better start making some masterpieces!')
+
+def clear_musuem():
+    while(True):
+        response = input('Are you sure you want to permanently delete all the haikus in your museum? (Y/N)\n').lower()
+        if response == 'y' or response == 'yes':
+            remove('museum.p')
+            print('\nSay your condolences... the museum has been burned. :(')
+            break
+        elif response == 'n' or response == 'no':
+            break
+        else:
+            print('invalid input')
+
 if len(sys.argv) > 1:
     if sys.argv[1] == '-help' or sys.argv[1] == '-h':
         print(' -h̲elp\t\t: I think you already know what this one does...\n',
-                '-c̲ustom [arg]\t: generate a haiku containing the passed in word (arg)')
-    elif sys.argv[1] == '-custom' or sys.argv[1] == '-c':
+                '-w̲ith [arg]\t: generate a haiku containing the passed in word (arg)\n',
+                '-m̲useum\t: enter the haiku museum and peruse your masterpieces!\n',
+                '-c̲lear\t: burns down the museum and all haikus within it')
+    elif sys.argv[1] == '-with' or sys.argv[1] == '-w':
         if len(sys.argv) > 2:
-            print(make_haiku_with(sys.argv[2]))
+            haiku = make_haiku_with(sys.argv[2])
+            print(haiku)
+            prompt_user(haiku)
         else:
-            print(' invalid parameter for ' + sys.argv[1] + '\n',
+            print(' invalid argument for ' + sys.argv[1] + '\n',
                     'use \'-help\' or \'-h\' for help')
+    elif sys.argv[1] == '-museum' or sys.argv[1] == '-m':
+        display_museum()
+    elif sys.argv[1] == '-clear' or sys.argv[1] == '-c':
+        clear_musuem()
     else:
-        print(' invalid argument\n',
+        print(' invalid command\n',
                 'use \'-help\' or \'-h\' for help')
         sys.exit
 else:
-    print(get_haiku())
+    haiku = get_haiku()
+    print(haiku)
+    prompt_user(haiku)
