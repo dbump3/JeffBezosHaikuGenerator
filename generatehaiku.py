@@ -50,7 +50,13 @@ def make_haiku(list1, list2, list3, list4, list5, list6, list7) -> str:
         '\n\t' + get_word(list1).capitalize() + ' ' + get_word(list2) + ', \n' \
         + '\t' + get_word(list3) + ' ' + get_word(list4) + ' ' + get_word(list5) + ', \n' \
         + '\t' + get_word(list6) + ' ' + get_word(list7) + '.\n'
-    return haiku
+    try:
+        if len(pickle.load(open("museum.p", "rb"))) == 0:
+            print_help()
+        return haiku
+    except:
+        print_help()
+        return haiku
 
 def get_word(wordlist: str) -> str:
     return wordlist[randint(0, len(wordlist)-1)]
@@ -169,12 +175,15 @@ def clear_musuem():
         else:
             print('invalid input')
 
-if len(sys.argv) > 1:
-    if sys.argv[1] == '-help' or sys.argv[1] == '-h':
-        print(' -h̲elp\t\t: I think you already know what this one does...\n',
+def print_help():
+    print(' -h̲elp\t\t: I think you already know what this one does...\n',
                 # '-w̲ith [arg]\t: generate a haiku containing the passed in word (arg)\n',
                 '-m̲useum\t: enter the haiku museum and peruse your masterpieces!\n',
                 '-c̲lear\t: burns down the museum and all haikus within it')
+
+if len(sys.argv) > 1:
+    if sys.argv[1] == '-help' or sys.argv[1] == '-h':
+        print_help()
     # elif sys.argv[1] == '-with' or sys.argv[1] == '-w':
     #     if len(sys.argv) > 2:
     #         haiku = make_haiku_with(sys.argv[2])
