@@ -4,9 +4,9 @@
 import sys
 import re
 from random import randint
-import nltk
+# import nltk
 # nltk.download('wordnet')
-from nltk.corpus import wordnet as wn
+# from nltk.corpus import wordnet as wn
 import pickle
 from os import remove
 
@@ -128,7 +128,7 @@ def hang_in_musuem(haiku: str):
     except:
         haikus = [haiku]
     pickle.dump(haikus, open('museum.p', 'wb'))
-    print('\nHung \"' + haiku + '\" in the museum.\n')
+    print('\nThe haiku has been hung in the museum.\n')
 
 def display_museum():
     try:
@@ -153,17 +153,17 @@ def clear_musuem():
 if len(sys.argv) > 1:
     if sys.argv[1] == '-help' or sys.argv[1] == '-h':
         print(' -h̲elp\t\t: I think you already know what this one does...\n',
-                '-w̲ith [arg]\t: generate a haiku containing the passed in word (arg)\n',
+                # '-w̲ith [arg]\t: generate a haiku containing the passed in word (arg)\n',
                 '-m̲useum\t: enter the haiku museum and peruse your masterpieces!\n',
                 '-c̲lear\t: burns down the museum and all haikus within it')
-    elif sys.argv[1] == '-with' or sys.argv[1] == '-w':
-        if len(sys.argv) > 2:
-            haiku = make_haiku_with(sys.argv[2])
-            print(haiku)
-            prompt_user(haiku)
-        else:
-            print(' invalid argument for ' + sys.argv[1] + '\n',
-                    'use \'-help\' or \'-h\' for help')
+    # elif sys.argv[1] == '-with' or sys.argv[1] == '-w':
+    #     if len(sys.argv) > 2:
+    #         haiku = make_haiku_with(sys.argv[2])
+    #         print(haiku)
+    #         prompt_user(haiku)
+    #     else:
+    #         print(' invalid argument for ' + sys.argv[1] + '\n',
+    #                 'use \'-help\' or \'-h\' for help')
     elif sys.argv[1] == '-museum' or sys.argv[1] == '-m':
         display_museum()
     elif sys.argv[1] == '-clear' or sys.argv[1] == '-c':
