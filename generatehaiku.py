@@ -133,6 +133,25 @@ def hang_in_musuem(haiku: str):
 def display_museum():
     try:
         haikus = pickle.load(open("museum.p", "rb"))
+        print('\
+         ,   ,     ,   ,\n\
+         A,|,A     A,,,A\n\
+         |\";\"|     |\";\"|\n\
+         T/\"\T     T/\"\T\n\
+         ||#||     ||#||\n\
+         |\'=\'|  t  |\'=\'|\n\
+         |.=.| / \ |.=.|\n\
+         |(e)|/,n,\|(o)|\n\
+        =T===\'\"\"\"\"\"\'===T=\n\
+        ||/\"\.o.=.o./\"\||\n\
+        |||H||/\T/\||H|||\n\
+        |||H|||TTT|||H|||\n\
+        ||/8\||TTT||/8\||\n\
+   ...  ||/\"\|;;:;;|/\"\||\n\
+;::::; |||T||;;;;;;.,:;:,.,.,.,\n\
+;:::;;;||===| /:\ :T:Tn_n_T___n\n\
+l42;::_||:::||;;;|||;;|;;|;;|;;\n\n\
+\t~ WELCOME TO THE MUSEM ~')
         for line in haikus:
             print(line)
     except:
